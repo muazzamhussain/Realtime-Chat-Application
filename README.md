@@ -31,10 +31,11 @@ NODE_ENV=development
 npm run build
 ```
 
-Project is live on: https://realtime-chat-application-18fw.onrender.com/signup
-
 ### Start the app
 
 ```shell
 npm start
 ```
+
+
+# Project is live on: https://realtime-chat-application-18fw.onrender.com/signup
