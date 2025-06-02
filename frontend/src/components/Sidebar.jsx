@@ -43,17 +43,19 @@ const Sidebar = () => {
   return (
     <>
       {/* Mobile Toggle Button */}
-      <button
-        className="lg:hidden fixed top-30 left-4 z-50 p-3 m-3 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 hover:scale-105 transition-transform"
-        onClick={() => setIsSidebarOpen(true)}
-      >
-        <Menu className="h-5 w-5 text-gray-700 dark:text-gray-300" />
-      </button>
+      {isSidebarOpen ? null : (
+        <button
+          className="lg:hidden fixed top-30 left-4 z-50 p-3 m-3  rounded-md shadow-lg border  hover:scale-105 transition-transform"
+          onClick={() => setIsSidebarOpen(true)}
+        >
+          <Menu className="h-5 w-5 " />
+        </button>
+      )}
 
-      {/* Overlay */}
+      {/* Themed Overlay */}
       {isSidebarOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm"
+          className="lg:hidden fixed inset-0 z-40 backdrop-blur-sm "
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
@@ -62,41 +64,37 @@ const Sidebar = () => {
       <aside
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 fixed lg:static top-0 left-0 h-full w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex flex-col z-50 transition-transform duration-300 ease-in-out shadow-xl lg:shadow-none`}
+        } lg:translate-x-0 fixed lg:static top-0 left-0 h-full w-80  flex flex-col z-50 transition-transform duration-300 ease-in-out shadow-xl lg:shadow-none border transition-colors`}
       >
         {/* Header */}
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-6 border-b rounded-lg transition-colors">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mt-10">
               <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
                 <MessageCircle className="h-6 w-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Messages
-                </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {onlineUsers.length - 1} online
-                </p>
+                <h1 className="text-xl font-bold ">Messages</h1>
+                <p className="text-sm ">{onlineUsers.length - 1} online</p>
               </div>
             </div>
             <button
-              className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              className="lg:hidden p-2 rounded-lg transition-colors"
               onClick={() => setIsSidebarOpen(false)}
             >
-              <X className="h-5 w-5 text-gray-500" />
+              <X className="h-7 w-7 mt-8 hover:text-red-700 font-" />
             </button>
           </div>
 
           {/* Search Bar */}
           <div className="relative mb-4">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 " />
             <input
               type="text"
               placeholder="Search conversations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all"
+              className="w-full pl-10 pr-4 py-2.5  rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent  transition-all"
             />
           </div>
 
@@ -112,18 +110,19 @@ const Sidebar = () => {
                   className="sr-only peer"
                 />
                 <div
-                  className={`w-11 h-6 rounded-full transition-colors duration-300
-      ${showOnlineOnly ? "bg-blue-500" : "bg-gray-300 dark:bg-gray-600"}
-    `}
+                  className={`w-11 h-6 rounded-full transition-colors duration-300 ${
+                    showOnlineOnly
+                      ? "bg-blue-500"
+                      : "bg-gray-300 dark:bg-gray-600"
+                  }`}
                 />
                 <div
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300
-      ${showOnlineOnly ? "translate-x-5" : ""}
-    `}
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-300 ${
+                    showOnlineOnly ? "translate-x-5" : ""
+                  }`}
                 />
               </div>
-
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+              <span className="text-sm font-medium transition-colors">
                 Online only
               </span>
             </label>
@@ -131,9 +130,9 @@ const Sidebar = () => {
         </div>
 
         {/* User List */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto transition-colors">
           {filteredUsers.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-32 text-gray-500 dark:text-gray-400">
+            <div className="flex flex-col items-center justify-center h-32">
               <Users className="h-8 w-8 mb-2" />
               <p className="text-sm">
                 {searchQuery ? "No users found" : "No online users"}
@@ -144,15 +143,17 @@ const Sidebar = () => {
               {filteredUsers.map((user) => (
                 <button
                   key={user._id}
-                  onClick={() => setSelectedUser(user)}
-                  className={`w-full p-3 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group ${
+                  onClick={() => {
+                    setSelectedUser(user);
+                    setIsSidebarOpen(false);
+                  }}
+                  className={`w-full p-3 rounded-xl text-left  transition-all duration-200 group ${
                     selectedUser?._id === user._id
                       ? "bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800"
                       : "hover:shadow-sm"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    {/* Avatar */}
                     <div className="relative flex-shrink-0">
                       {user.profilePic ? (
                         <img
@@ -173,27 +174,25 @@ const Sidebar = () => {
                         )} rounded-full border-2 border-white dark:border-gray-900`}
                       />
                     </div>
-
-                    {/* User Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
-                        <h3 className="font-semibold text-gray-900 dark:text-white truncate text-sm">
+                        <h3 className="font-semibold  truncate text-sm">
                           {user.fullName}
                         </h3>
                         <div className="flex items-center gap-1">
                           {user.unreadCount > 0 && (
-                            <span className="bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center">
+                            <span className="text-xs font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center">
                               {user.unreadCount > 99 ? "99+" : user.unreadCount}
                             </span>
                           )}
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                          <span className="text-xs ">
                             {onlineUsers.includes(user._id)
                               ? "Online"
                               : "Offline"}
                           </span>
                         </div>
                       </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                      <p className="text-sm  truncate">
                         {user.lastMessage || "No messages yet"}
                       </p>
                     </div>
@@ -205,8 +204,8 @@ const Sidebar = () => {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+        <div className="p-4 border-t ">
+          <div className="flex items-center justify-between text-xs">
             <span>{filteredUsers.length} conversations</span>
             <span>Last updated now</span>
           </div>
