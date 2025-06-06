@@ -36,3 +36,6 @@ npm run build
 ```shell
 npm start
 ```
+
+
+### Project is live on: https://realtime-chat-application-18fw.onrender.com/signup
